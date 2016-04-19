@@ -19,7 +19,7 @@
             requireAuth: function (req, res, next) {
                 var token = req.get('Auth');
                 
-                db.user.findBytoken(token).then(function (user) {
+                db.user.findByToken(token).then(function (user) {
                     req.user = user;
                     next();
                 },

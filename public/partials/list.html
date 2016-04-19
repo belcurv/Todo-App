@@ -1,0 +1,62 @@
+<section id="todoapp">
+	
+    <header id="header">
+		<h1>todo-list</h1>
+        <form id="todo-desc" ng-submit="vm.addTodo()">
+            <input id="new-todo" type="text" placeholder="Come On, Work!"
+                   ng-model="vm.description" ng-disabled="vm.saving" autofocus>
+        </form>
+    </header>
+    
+    <section id="main" ng-show="vm.todos.length">
+        <label for="toggle-all">Mark all as complete</label>
+        <input id="toggle-all" type="checkbox" ng-model="vm.allChecked"
+               ng-click="vm.markAll(vm.allChecked)">
+        <ul id="todo-list">
+            <li ng-repeat="todo in vm.todos | startFrom:vm.currentPage*vm.pageSize | limitTo:vm.pageSize" ng-class="{completed: todo.completed, editing: todo == vm.editedTodo}" ng-cloak>
+                <div class="view">
+                    <input class="toggle" type="checkbox" ng-model="todo.completed"
+                           ng-change="vm.toggleCompleted(todo)">
+                    <label ng-if="vm.mobile" ios-dblclick="vm.editTodo(todo)">
+                        {{todo.description}}
+                    </label>
+                    <label ng-if="vm.desktop" ng-dblclick="vm.editTodo(todo)">
+                        {{todo.description}}
+                    </label>
+                    <button type="button" class="destroy"
+                            ng-click="vm.removeTodo(todo)">
+                    </button>
+                </div>
+                <form ng-submit="vm.saveEdits(todo, 'submit')">
+                    <input class="edit" ng-trim="false" ng-model="todo.description" todo-escape="vm.revertEdits(todo)" ng-blur="vm.saveEdits(todo, 'blur')" todo-focus="todo == vm.editedTodo">
+                </form>
+            </li>
+        </ul>
+        <div class="todo-pagination" ng-show="vm.todos.length>10">
+            <button class="btn btn-default" ng-disabled="vm.currentPage == 0" ng-click="vm.currentPage=vm.currentPage-1">
+                Previous
+            </button>
+            <span>
+                {{vm.currentPage+1}}/{{vm.numberOfPages()}}
+            </span>
+            <button class="btn btn-default"
+                    ng-disabled="vm.currentPage >= vm.getData().length/vm.pageSize - 1"
+                    ng-click="vm.currentPage=vm.currentPage+1">
+                Next
+            </button>
+        </div>
+    </section>
+</section>
+
+<footer>
+	<div class="logout">
+		<button class="btn btn-default" ng-click="vm.logout()">Logout</button>
+	</div>
+</footer>
+
+<footer id="info">
+    <p>Double-click to edit a todo</p>
+    <div class="code-link">
+        All credit to <a href="https://github.com/ikhsanalatsary/Todo-app" target="_blank">ikhsanalatsary's Github demo</a>.
+    </div>
+</footer>

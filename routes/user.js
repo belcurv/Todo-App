@@ -6,7 +6,7 @@
     module.exports = function (app, db) {
 
         // ================= POST -> /users =================
-        // Add a user
+        // Register a user
         app.post('/users', function (req, res) {
             var body = _.pick(req.body, 'email', 'password');
 
@@ -28,7 +28,7 @@
 
             // authentication via custom sequelize Class Method
             // on success, returns a token in header
-            db.user.authenticate(body)
+            db.user.authentication(body)
                 .then(function (user) {
                     var userToken = user.generateToken('authentication');
                 
