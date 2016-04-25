@@ -9,18 +9,16 @@
     </header>
     
     <section id="main" ng-show="vm.todos.length">
-        <label for="toggle-all">Mark all as complete</label>
+            
         <input id="toggle-all" type="checkbox" ng-model="vm.allChecked"
                ng-click="vm.markAll(vm.allChecked)">
+        <label for="toggle-all">Mark all as complete</label>
         <ul id="todo-list">
             <li ng-repeat="todo in vm.todos | startFrom:vm.currentPage*vm.pageSize | limitTo:vm.pageSize" ng-class="{completed: todo.completed, editing: todo == vm.editedTodo}" ng-cloak>
                 <div class="view">
                     <input class="toggle" type="checkbox" ng-model="todo.completed"
                            ng-change="vm.toggleCompleted(todo)">
-                    <label ng-if="vm.mobile" ios-dblclick="vm.editTodo(todo)">
-                        {{todo.description}}
-                    </label>
-                    <label ng-if="vm.desktop" ng-dblclick="vm.editTodo(todo)">
+                    <label ng-dblclick="vm.editTodo(todo)">
                         {{todo.description}}
                     </label>
                     <button type="button" class="destroy"
